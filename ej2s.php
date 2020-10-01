@@ -23,11 +23,10 @@
     
  // el valor de ip que queda son los números finales después del último punto.     
  $ip=substr($ip, strpos($ip,".")+1, strlen($ip)-1);
-    
- $ipb="%b"; //creamos una variable para convertir todas las "ip" a binario.
-    
+     
  echo "IP : ".$IP." en binario es: ";  
     
+ // utilizamos el método decbin para pasar los números a binario e imprimimos a la vez    
  echo decbin($ip1);echo ".";
  echo decbin($ip2);echo ".";
  echo decbin($ip3);echo ".";
