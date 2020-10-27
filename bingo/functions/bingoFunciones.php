@@ -40,7 +40,7 @@
     function generarCartones(/*$numCartones*/)
     {
 
-        for ($j = 1; $j < 4; $j++) { // para crear los 3 cartones
+        for ($j = 0; $j < 3/*($numCartones)*/; $j++) { // para crear los 3 cartones
 
             ${"carton" . $j} = array(rand(1, 65)); //reiniciar los cartones
             for ($k = 0; $k < 14; $k++) {
@@ -54,7 +54,7 @@
         }
 
         $jugador = array();
-        for ($i = 1; $i < 4; $i++) {
+        for ($i = 0; $i < 3/*($numCartones)*/; $i++) {
             array_push($jugador, ${"carton" . $i});
         }
         return $jugador;
@@ -63,7 +63,7 @@
     function generarJugadores(/*$numJugadores, $numCartones */){
 
         $jugadores=array();  
-        for ($i = 1; $i < 5; $i++) { //generar array jugadores
+        for ($i = 0; $i < 4/*$numJugadores*/ ; $i++) { //generar array jugadores
         ${"jugador" . $i} = generarCartones(/*$numCartones*/); // asignar cartones a cada jugador
             array_push($jugadores, ${"jugador" . $i});
         }
@@ -87,7 +87,7 @@
         $bola = array_pop($bombo); // quitar último elemento del array
         $bolasSacadas = array();
 
-        for ($i = 1; $i < 5; $i++) { // crear contadores
+        for ($i = 0; $i < count($jugadores); $i++) { // crear contadores
             ${"cont" . $i} = array(0, 0, 0);
         }
         $ganadores = array(false, false, false, false); // para indicar quienes han ganado
@@ -97,22 +97,22 @@
             $bola = array_pop($bombo); // para sacar la última bola del bombo
             array_push($bolasSacadas, $bola); // guardar las bolas salidas para imprimirlas luego
 
-            for ($i = 1; $i < 5; $i++) { // para recorrer cada jugador
-                for ($j = 0; $j < 3; $j++) {
-                    if (in_array($bola, $jugadores[$i - 1][$j])) { // para comprobar si la bola está en cada cartón
+            for ($i = 0; $i < count($jugadores); $i++) { // para recorrer cada jugador
+                for ($j = 0; $j < count($jugadores[$i]); $j++) {
+                    if (in_array($bola, $jugadores[$i][$j])) { // para comprobar si la bola está en cada cartón
                         ${"cont" . $i}[$j]++;
                     }
                 }
                 // si algún elemento del contador llega a 15, marcamos el array de ganadores como true en la posición correspondiente
 
                 if (in_array(15, ${"cont" . $i})) {
-                    $ganadores[$i - 1] = true;
+                    $ganadores[$i] = true;
                 }
             }
 
             $contadores = array();
-            for ($i = 1; $i < 5; $i++) { // crear array contadores
-                array_push($contadores, ${"cont" . $i});
+            for ($i = 0; $i < count($jugadores); $i++) { // crear array contadores
+                array_push($contadores, ${"cont" . ($i)});
             }
         }
 
@@ -124,11 +124,11 @@
 
         echo "<h1>Jugadores y cartones<h1>";
 
-        for ($i = 0; $i < 4; $i++) { //imprimir los jugadores
+        for ($i = 0; $i < count($jugadores); $i++) { //imprimir los jugadores
 
             echo "<h2>Jugador ".($i+1)."<h2>";
 
-            for ($j = 0; $j < 3; $j++) { // imprimir cada cartón
+            for ($j = 0; $j < count($jugadores[$i]); $j++) { // imprimir cada cartón
 
                 echo '<div class="cartones">
 
@@ -188,7 +188,7 @@
 
         echo "Ganadores</br></br>";
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < count($jugadores); $i++) {
             if ($ganadores[$i]) {
                 echo "<span>Jugador " . ($i + 1) . "</span></br>";
             }
